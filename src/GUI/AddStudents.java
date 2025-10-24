@@ -7,9 +7,7 @@ public class AddStudents extends javax.swing.JPanel {
     int age = 0, GPA = 0;
     boolean gender = true;
     public boolean validText(String input){
-        if(input.length() == 0)
-            return false;
-        return true;
+        return (input.length() > 0);
     }
     public boolean validGPA(String input){
         if(input.length() == 0)

@@ -7,6 +7,9 @@ public final class MainWindow extends javax.swing.JFrame {
     Login login;
     HomePage home;
     AddStudents addStudents;
+    ViewStudents viewStudents;
+    SearchUpdateStudents searchUpdateStudents;
+    DeleteStudents deleteStudents;
     CardLayout cardLayout;
     public void showPanel(String panel){
         cardLayout.show(ContentPanel, panel);
@@ -16,10 +19,16 @@ public final class MainWindow extends javax.swing.JFrame {
         login = new Login();
         home = new HomePage();
         addStudents = new AddStudents();
+        viewStudents = new ViewStudents();
+        searchUpdateStudents = new SearchUpdateStudents();
+        deleteStudents = new DeleteStudents();
         cardLayout = (CardLayout) ContentPanel.getLayout();
         ContentPanel.add(login, "login");
         ContentPanel.add(home, "home");
         ContentPanel.add(addStudents, "addstudents");
+        ContentPanel.add(viewStudents, "viewstudents");
+        ContentPanel.add(searchUpdateStudents, "searchupdatestudents");
+        ContentPanel.add(deleteStudents, "deletestudents");
         showPanel("login");
     }
     @SuppressWarnings("unchecked")

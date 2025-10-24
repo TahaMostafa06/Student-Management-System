@@ -6,25 +6,29 @@ public class Login extends javax.swing.JPanel {
 
     public String username = "", password = "";
     public boolean validText(String input){
-        if(input.length() == 0)
-            return false;
-        return true;
+        return (input.length() > 0);
     }
     public boolean validGPA(String input){
-        if(input.length() == 0 || input.length() > 9)
+        if(input.length() == 0)
             return false;
-        for(int i = 0; i < input.length(); i++)
-            if(!('0' <= input.charAt(i) && input.charAt(i) <= '9'))
+        try {
+            double value = Double.parseDouble(input);
+            if(value < 0 || value > 4)
                 return false;
-        return true;
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
     public boolean validAge(String input){ //age between 0 and 99
-        if(input.length() == 0 || input.length() > 2)
+       if(input.length() == 0)
             return false;
-        for(int i = 0; i < input.length(); i++)
-            if(!('0' <= input.charAt(i) && input.charAt(i) <= '9'))
-                return false;
-        return true;
+        try {
+            int value = Integer.parseInt(input);
+            return (value >= 0 && value <= 99);
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
     public Login() {
         initComponents();
