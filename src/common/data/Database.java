@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public abstract class Database<RecordType extends Record> {
 
-    // A] Fields - remember to turn protected -> private when subclassing
+    // A] Fields
     protected ArrayList<RecordType> records;
     protected final String filename;
 

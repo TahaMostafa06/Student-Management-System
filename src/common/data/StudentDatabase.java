@@ -1,11 +1,24 @@
 package common.data;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class StudentDatabase extends Database<Student> {
 
-    public StudentDatabase(String filename) throws IOException {
+    private static final ArrayList<StudentDatabase> instances = new ArrayList<>();
+
+    private StudentDatabase(String filename) throws IOException {
         super(filename);
+    }
+
+    public static StudentDatabase getInstance(String filename) throws IOException {
+        for (var i : instances) {
+            if (i.filename.equals(filename))
+                return i;
+        }
+        var db = new StudentDatabase(filename);
+        instances.add(db);
+        return db;
     }
 
     @Override
