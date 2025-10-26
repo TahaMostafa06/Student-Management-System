@@ -1,4 +1,4 @@
-package GUI.common.fieldcheckers;
+package gui.common.fieldcheckers;
 
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;

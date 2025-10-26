@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 import javax.swing.JOptionPane;
 
 public class SearchUpdateStudents extends javax.swing.JPanel {

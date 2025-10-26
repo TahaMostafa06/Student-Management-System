@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 import Records.Student;
 import Records.StudentDatabase;
 import java.io.BufferedReader;

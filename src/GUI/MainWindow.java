@@ -1,7 +1,4 @@
-package GUI;
-import javax.swing.JOptionPane;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+package gui;
 import java.awt.CardLayout;
 public final class MainWindow extends javax.swing.JFrame {
     Login login;
