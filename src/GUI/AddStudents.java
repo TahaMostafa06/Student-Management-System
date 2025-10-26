@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 import javax.swing.JOptionPane;
 
 public class AddStudents extends javax.swing.JPanel {

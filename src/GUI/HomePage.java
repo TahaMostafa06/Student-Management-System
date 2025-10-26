@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 import javax.swing.JOptionPane;
 
 public class HomePage extends javax.swing.JPanel {
