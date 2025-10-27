@@ -8,6 +8,7 @@ public class ViewStudents extends javax.swing.JPanel {
 
     public ViewStudents() {
         initComponents();
+        studentsViewTable.setAutoCreateRowSorter(true);
     }
 
     /**
