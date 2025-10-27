@@ -26,7 +26,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         }
 
         // Sorter initialization for use with filter() when search input is updated
-        tableSorter = new TableRowSorter<StudentTableModel>(tableModel);
+        tableSorter = new TableRowSorter<>(tableModel);
         studentsViewTable.setRowSorter(tableSorter);
 
         // Selection Handling
@@ -94,6 +94,11 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         add(title, gridBagConstraints);
 
         backButton.setText("Back");
+        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backButtonMouseClicked(evt);
+            }
+        });
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backButtonActionPerformed(evt);
@@ -163,6 +168,11 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     private void editButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonPressed
         selectAndEdit();
     }//GEN-LAST:event_editButtonPressed
+
+    private void backButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonMouseClicked
+        MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.showPanel("home");
+    }//GEN-LAST:event_backButtonMouseClicked
 
     private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchBarActionPerformed
         filter(searchBar.getText());

@@ -17,7 +17,7 @@ public class ViewStudents extends javax.swing.JPanel {
         } catch (IOException ex) {
             System.getLogger(ViewStudents.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
-        tableSorter = new TableRowSorter<StudentTableModel>(tableModel);
+        tableSorter = new TableRowSorter<>(tableModel);
         studentsViewTable.setRowSorter(tableSorter);
     }
 
@@ -52,6 +52,11 @@ public class ViewStudents extends javax.swing.JPanel {
         add(title, gridBagConstraints);
 
         backButton.setText("Back");
+        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backButtonMouseClicked(evt);
+            }
+        });
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backButtonActionPerformed(evt);
@@ -77,6 +82,11 @@ public class ViewStudents extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         add(tableScrollPane, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void backButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonMouseClicked
+        MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.showPanel("home");
+    }//GEN-LAST:event_backButtonMouseClicked
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:

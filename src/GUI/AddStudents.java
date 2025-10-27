@@ -1,11 +1,15 @@
 package gui;
+import common.data.Student;
+import common.data.StudentDatabase;
+import gui.common.fieldcheckers.BasicValidators;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 public class AddStudents extends javax.swing.JPanel {
 
-    public String StudentID = "", FullName = "", Department = "";
-    int age = 0, GPA = 0;
-    boolean gender = true;
+    public String FullName = "", Department = "", gender = "Male";
+    int StudentID = 0, age = 0;
+    double GPA = 0;
     public boolean validText(String input){
         return (input.length() > 0);
     }
@@ -14,9 +18,7 @@ public class AddStudents extends javax.swing.JPanel {
             return false;
         try {
             double value = Double.parseDouble(input);
-            if(value < 0 || value > 4)
-                return false;
-            return true;
+            return !(value < 0 || value > 4);
         } catch (NumberFormatException e) {
             return false;
         }
@@ -213,7 +215,31 @@ public class AddStudents extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        if (!validText(StudentIDTextField.getText())) {
+            StudentIDTextField.requestFocus();
+        } else if(!validText(FullNameTextField.getText())){
+           FullNameTextField.requestFocus();
+        } else if (!validAge(AgeTextField.getText())) {
+            AgeTextField.requestFocus();
+        } else if (!validText(DepartmentTextField.getText())) {
+            DepartmentTextField.requestFocus();
+        } else if (!validGPA(GPATextField.getText())) {
+            GPATextField.requestFocus();
+        } else{
+            try {
+                Student newstudent = new Student(StudentID, FullName, age, gender, Department, GPA);
+                StudentDatabase p = StudentDatabase.getInstance("Students.txt");
+                if(p.contains(newstudent.getSearchKey())){
+                    JOptionPane.showMessageDialog(this, "Student with this ID already exists", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    p.insertRecord(newstudent);
+                    p.saveToFile();
+                    JOptionPane.showMessageDialog(this, "Student Added Successfully", "Addition Confirmed", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (IOException ex) {
+                System.out.println("IOException");
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -227,9 +253,10 @@ public class AddStudents extends javax.swing.JPanel {
         String currentID = StudentIDTextField.getText();
         if(validText(currentID) == false){
             JOptionPane.showMessageDialog(this, "Invalid ID", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            StudentIDTextField.setText(StudentID);
+            StudentIDTextField.setText(StudentID + "");
         }else{
-            StudentID = currentID;
+            StudentID = Integer.parseInt(currentID);
+            FullNameTextField.requestFocus();
         }
     }//GEN-LAST:event_StudentIDTextFieldActionPerformed
 
@@ -241,6 +268,7 @@ public class AddStudents extends javax.swing.JPanel {
             FullNameTextField.setText(FullName);
         }else{
             FullName = currentFullname;
+            AgeTextField.requestFocus();
         }
     }//GEN-LAST:event_FullNameTextFieldActionPerformed
 
@@ -252,6 +280,7 @@ public class AddStudents extends javax.swing.JPanel {
             AgeTextField.setText(age + "");
         }else{
             age = Integer.parseInt(currentAge);
+            GenderComboBox.requestFocus();
         }
     }//GEN-LAST:event_AgeTextFieldActionPerformed
 
@@ -263,6 +292,7 @@ public class AddStudents extends javax.swing.JPanel {
             DepartmentTextField.setText(Department);
         }else{
             Department = currentdep;
+            GPATextField.requestFocus();
         }
     }//GEN-LAST:event_DepartmentTextFieldActionPerformed
 
@@ -273,13 +303,14 @@ public class AddStudents extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Invalid GPA", "Validation Error", JOptionPane.ERROR_MESSAGE);
             GPATextField.setText(GPA + "");
         }else{
-            GPA = Integer.parseInt(currentGPA);
+            GPA = Double.parseDouble(currentGPA);
         }
     }//GEN-LAST:event_GPATextFieldActionPerformed
 
     private void GenderComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenderComboBoxActionPerformed
         // TODO add your handling code here:
-        gender = GenderComboBox.getSelectedItem().equals("Male");
+        gender = GenderComboBox.getSelectedItem().equals("Male") ? "Male" : "Female";
+        DepartmentTextField.requestFocus();
     }//GEN-LAST:event_GenderComboBoxActionPerformed
 
 
