@@ -4,13 +4,14 @@ import common.data.StudentDatabase;
 import gui.common.tablemodels.StudentTableModel;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
 public class SearchAndUpdate extends javax.swing.JPanel {
     StudentTableModel tableModel;
     TableRowSorter<StudentTableModel> tableSorter;
+    ListSelectionModel selectionModel;
 
     public SearchAndUpdate() {
         initComponents();
@@ -23,6 +24,11 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         }
         tableSorter = new TableRowSorter<StudentTableModel>(tableModel);
         studentsViewTable.setRowSorter(tableSorter);
+        selectionModel = studentsViewTable.getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        selectionModel.addListSelectionListener((event) -> {
+            editSelectedButton.setEnabled(!selectionModel.isSelectionEmpty());
+        });
     }
 
     private void filter(String key) {
@@ -36,6 +42,12 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         }
     }
 
+    private void selectAndEdit() {
+        var row = studentsViewTable.getSelectedRow();
+        var idColumn = studentsViewTable.getColumn("ID").getModelIndex();
+        System.out.println(studentsViewTable.getValueAt(row, idColumn));
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,7 +58,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -56,6 +68,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         studentsViewTable = new javax.swing.JTable();
         searchBar = new javax.swing.JTextField();
         searchLabel = new javax.swing.JLabel();
+        editSelectedButton = new javax.swing.JButton();
 
         setEnabled(false);
         setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -106,22 +119,39 @@ public class SearchAndUpdate extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 93;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.3;
         add(searchBar, gridBagConstraints);
 
         searchLabel.setText("Search");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 26;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
         add(searchLabel, gridBagConstraints);
+
+        editSelectedButton.setText("Edit Selected");
+        editSelectedButton.setEnabled(false);
+        editSelectedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonPressed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        add(editSelectedButton, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void editButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonPressed
+        selectAndEdit();
+    }//GEN-LAST:event_editButtonPressed
 
     private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchBarActionPerformed
         filter(searchBar.getText());
@@ -137,6 +167,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
+    private javax.swing.JButton editSelectedButton;
     private javax.swing.JTextField searchBar;
     private javax.swing.JLabel searchLabel;
     private javax.swing.JTable studentsViewTable;
