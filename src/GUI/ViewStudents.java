@@ -3,12 +3,22 @@ package gui;
 import common.data.StudentDatabase;
 import gui.common.tablemodels.StudentTableModel;
 import java.io.IOException;
+import javax.swing.table.TableRowSorter;
 
 public class ViewStudents extends javax.swing.JPanel {
-
+    StudentTableModel tableModel;
+    TableRowSorter<StudentTableModel> tableSorter;
     public ViewStudents() {
         initComponents();
-        studentsViewTable.setAutoCreateRowSorter(true);
+        
+        try {
+            tableModel = new StudentTableModel(StudentDatabase.getInstance("Students.txt"));
+            studentsViewTable.setModel(tableModel);
+        } catch (IOException ex) {
+            System.getLogger(ViewStudents.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        tableSorter = new TableRowSorter<StudentTableModel>(tableModel);
+        studentsViewTable.setRowSorter(tableSorter);
     }
 
     /**
@@ -20,7 +30,7 @@ public class ViewStudents extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -39,9 +49,6 @@ public class ViewStudents extends javax.swing.JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 15;
-        gridBagConstraints.ipady = 8;
-        gridBagConstraints.insets = new java.awt.Insets(6, 177, 0, 0);
         add(title, gridBagConstraints);
 
         backButton.setText("Back");
@@ -57,12 +64,7 @@ public class ViewStudents extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(13, 19, 0, 0);
         add(backButton, gridBagConstraints);
 
-        try {
-            studentsViewTable.setModel(new StudentTableModel(StudentDatabase.getInstance("Students.txt")));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        studentsViewTable.setModel(studentsViewTable.getModel());
         tableScrollPane.setViewportView(studentsViewTable);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -70,12 +72,9 @@ public class ViewStudents extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 436;
-        gridBagConstraints.ipady = 363;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(3, 22, 6, 113);
         add(tableScrollPane, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 

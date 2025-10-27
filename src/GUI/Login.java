@@ -18,6 +18,8 @@ public class Login extends javax.swing.JPanel {
                 && String.valueOf(passwordInput.getPassword()).equals("9999"))) {
             passwordInput.requestFocus();
         } else {
+            usernameInput.setText("");
+            passwordInput.setText("");
             JOptionPane.showMessageDialog(this, "Login Successful", "Login Confirmation",
                     JOptionPane.INFORMATION_MESSAGE);
             MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
@@ -33,7 +35,7 @@ public class Login extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -93,7 +95,6 @@ public class Login extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(22, 22, 22, 22);
         add(usernameInput, gridBagConstraints);
 
-        submitButton.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.focusedBorderColor"));
         submitButton.setText("Login");
         submitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

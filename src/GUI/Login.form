@@ -75,9 +75,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="submitButton">
       <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="d4" green="b0" id="Button.focusedBorderColor" palette="3" red="89" type="palette"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Login"/>
       </Properties>
       <Events>
