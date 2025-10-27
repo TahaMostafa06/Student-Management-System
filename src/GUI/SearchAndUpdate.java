@@ -15,6 +15,8 @@ public class SearchAndUpdate extends javax.swing.JPanel {
 
     public SearchAndUpdate() {
         initComponents();
+
+        // Data Model Initialization
         try {
             tableModel = new StudentTableModel(StudentDatabase.getInstance("Students.txt"));
             studentsViewTable.setModel(tableModel);
@@ -22,19 +24,26 @@ public class SearchAndUpdate extends javax.swing.JPanel {
             System.getLogger(SearchAndUpdate.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             return;
         }
+
+        // Sorter initialization for use with filter() when search input is updated
         tableSorter = new TableRowSorter<StudentTableModel>(tableModel);
         studentsViewTable.setRowSorter(tableSorter);
-        selectionModel = studentsViewTable.getSelectionModel();
-        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // Selection Handling
+        selectionModel = studentsViewTable.getSelectionModel(); // Selection Model == Selection Manager
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Allow only one row to be selected
         selectionModel.addListSelectionListener((event) -> {
-            editSelectedButton.setEnabled(!selectionModel.isSelectionEmpty());
+            editSelectedButton.setEnabled(!selectionModel.isSelectionEmpty()); // Enable edit button if student is selected
         });
     }
 
+    // On searchInput keyTyped/ actionPerformed
     private void filter(String key) {
         if (key.trim().length() == 0) {
+            // Reset filter if key is empty
             tableSorter.setRowFilter(null);
         } else {
+            // Set an OR filter that looks for the key in all IDs and Names
             var filters = new ArrayList<RowFilter<Object, Object>>();
             filters.add(RowFilter.regexFilter("(?i)" + key, studentsViewTable.getColumn("Name").getModelIndex()));
             filters.add(RowFilter.regexFilter("(?i)" + key, studentsViewTable.getColumn("ID").getModelIndex()));
@@ -42,7 +51,9 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         }
     }
 
+    // On editButton pressed
     private void selectAndEdit() {
+        // Get selected row -> get ID column -> get ID -> pass ID to edit window
         var row = studentsViewTable.getSelectedRow();
         var idColumn = studentsViewTable.getColumn("ID").getModelIndex();
         System.out.println(studentsViewTable.getValueAt(row, idColumn));
