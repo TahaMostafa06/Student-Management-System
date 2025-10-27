@@ -1,14 +1,11 @@
-package GUI;
-import javax.swing.JOptionPane;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+package gui;
 import java.awt.CardLayout;
 public final class MainWindow extends javax.swing.JFrame {
     Login login;
     HomePage home;
     AddStudents addStudents;
     ViewStudents viewStudents;
-    SearchUpdateStudents searchUpdateStudents;
+    SearchAndUpdate searchUpdateStudents;
     DeleteStudents deleteStudents;
     CardLayout cardLayout;
     public void showPanel(String panel){
@@ -20,7 +17,7 @@ public final class MainWindow extends javax.swing.JFrame {
         home = new HomePage();
         addStudents = new AddStudents();
         viewStudents = new ViewStudents();
-        searchUpdateStudents = new SearchUpdateStudents();
+        searchUpdateStudents = new SearchAndUpdate();
         deleteStudents = new DeleteStudents();
         cardLayout = (CardLayout) ContentPanel.getLayout();
         ContentPanel.add(login, "login");
