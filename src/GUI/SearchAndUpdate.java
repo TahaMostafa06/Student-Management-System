@@ -1,9 +1,7 @@
 package gui;
 
-import common.data.StudentDatabase;
 import gui.common.tablemodels.StudentTableModel;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
@@ -12,6 +10,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     StudentTableModel tableModel;
     TableRowSorter<StudentTableModel> tableSorter;
     ListSelectionModel selectionModel;
+    Boolean gpaFilterOn = false;
 
     public SearchAndUpdate(StudentTableModel studentTable) {
         initComponents();
@@ -31,17 +30,47 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     }
 
     // On searchInput keyTyped/ actionPerformed
-    private void filter(String key) {
-        if (key.trim().length() == 0) {
+    private void filter() {
+        var key = searchBar.getText();
+        RowFilter<Object, Object> andNeutralFilter = new RowFilter<Object, Object>() {
+            @Override
+            public boolean include(Entry<? extends Object, ? extends Object> entry) {
+                return true;
+            }
+        };
+        RowFilter<Object, Object> orNeutralFilter = new RowFilter<Object, Object>() {
+            @Override
+            public boolean include(Entry<? extends Object, ? extends Object> entry) {
+                return false;
+            }
+        };
+
+        var searchRowFilter = andNeutralFilter;
+        var gpaRowFilter = andNeutralFilter;
+        if (key.trim().length() != 0) {
             // Reset filter if key is empty
-            tableSorter.setRowFilter(null);
-        } else {
-            // Set an OR filter that looks for the key in all IDs and Names
-            var filters = new ArrayList<RowFilter<Object, Object>>();
-            filters.add(RowFilter.regexFilter("(?i)" + key, studentsViewTable.getColumn("Name").getModelIndex()));
-            filters.add(RowFilter.regexFilter("(?i)" + key, studentsViewTable.getColumn("ID").getModelIndex()));
-            tableSorter.setRowFilter(RowFilter.orFilter(filters));
+            var nameFilter = RowFilter.regexFilter("(?i)" + key, studentsViewTable.getColumn("Name").getModelIndex());
+            var idFilter = RowFilter.regexFilter("(?i)" + key, studentsViewTable.getColumn("ID").getModelIndex());
+            searchRowFilter = RowFilter.orFilter(List.of(nameFilter, idFilter));
         }
+
+        if (gpaFilterOn) {
+            var gpaCol = studentsViewTable.getColumn("GPA").getModelIndex();
+            var higherThanMin = RowFilter.numberFilter(RowFilter.ComparisonType.AFTER,
+                    (Double) this.minGpaFilterInput.getValue(), gpaCol);
+            var orEqualMin = RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL,
+                    (Double) this.minGpaFilterInput.getValue(), gpaCol);
+            var lowerThanMax = RowFilter.numberFilter(RowFilter.ComparisonType.BEFORE,
+                    (Double) this.maxGpaFilterInput.getValue(), gpaCol);
+            var orEqualMax = RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL,
+                    (Double) this.maxGpaFilterInput.getValue(), gpaCol);
+            gpaRowFilter = RowFilter.andFilter(List.of(RowFilter.orFilter(List.of(higherThanMin, orEqualMin)),
+                    RowFilter.orFilter(List.of(lowerThanMax, orEqualMax))));
+
+        }
+
+        tableSorter.setRowFilter(RowFilter.andFilter(List.of(gpaRowFilter, searchRowFilter)));
+
     }
 
     // On editButton pressed
@@ -63,7 +92,10 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -74,6 +106,12 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         searchBar = new javax.swing.JTextField();
         searchLabel = new javax.swing.JLabel();
         editSelectedButton = new javax.swing.JButton();
+        minGpaFilterInput = new javax.swing.JSpinner();
+        maxGpaFilterInput = new javax.swing.JSpinner();
+        minGpaLabel = new javax.swing.JLabel();
+        maxGpaLabel = new javax.swing.JLabel();
+        gpaFilter = new javax.swing.JLabel();
+        gpaFilterToggleButton = new javax.swing.JToggleButton();
 
         setBackground(new java.awt.Color(130, 195, 130));
         setEnabled(false);
@@ -114,6 +152,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -133,6 +172,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.3;
@@ -156,11 +196,105 @@ public class SearchAndUpdate extends javax.swing.JPanel {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
         add(editSelectedButton, gridBagConstraints);
+
+        minGpaFilterInput.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 4.0d, 0.1d));
+        minGpaFilterInput.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                onMinGpaStateChange(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 30;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        add(minGpaFilterInput, gridBagConstraints);
+
+        maxGpaFilterInput.setModel(new javax.swing.SpinnerNumberModel(4.0d, 0.0d, 4.0d, 0.1d));
+        maxGpaFilterInput.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                maxGpaStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 30;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        add(maxGpaFilterInput, gridBagConstraints);
+
+        minGpaLabel.setText("Minimum");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        add(minGpaLabel, gridBagConstraints);
+
+        maxGpaLabel.setText("Maximum");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        add(maxGpaLabel, gridBagConstraints);
+
+        gpaFilter.setText("GPA Filter");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        add(gpaFilter, gridBagConstraints);
+
+        gpaFilterToggleButton.setText("Enable GPA Filter");
+        gpaFilterToggleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gpaFilterToggleActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        add(gpaFilterToggleButton, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void onMinGpaStateChange(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_onMinGpaStateChange
+                filter();
+        if ((double) this.maxGpaFilterInput.getValue() < (double) this.minGpaFilterInput.getValue()) {
+            this.maxGpaFilterInput.setValue((double) this.minGpaFilterInput.getValue());
+        }
+    }//GEN-LAST:event_onMinGpaStateChange
+
+    private void maxGpaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_maxGpaStateChanged
+        filter();
+        if ((double) this.minGpaFilterInput.getValue() > (double) this.maxGpaFilterInput.getValue()) {
+            this.minGpaFilterInput.setValue((double) this.maxGpaFilterInput.getValue());
+        }
+    }//GEN-LAST:event_maxGpaStateChanged
+
+
+    private void gpaFilterToggleActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_gpaFilterToggleActionPerformed
+        gpaFilterOn = !gpaFilterOn;
+        if (gpaFilterOn)
+            gpaFilterToggleButton.setText("Disable GPA Filter");
+        else
+            gpaFilterToggleButton.setText("Enable GPA Filter");
+        this.filter();
+    }// GEN-LAST:event_gpaFilterToggleActionPerformed
 
     private void editButtonPressed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_editButtonPressed
         selectAndEdit();
@@ -172,11 +306,11 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     }// GEN-LAST:event_backButtonMouseClicked
 
     private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchBarActionPerformed
-        filter(searchBar.getText());
+        filter();
     }// GEN-LAST:event_searchBarActionPerformed
 
     private void searchBarKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_searchBarKeyTyped
-        filter(searchBar.getText());
+        filter();
     }// GEN-LAST:event_searchBarKeyTyped
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_backButtonActionPerformed
@@ -187,6 +321,12 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JButton editSelectedButton;
+    private javax.swing.JLabel gpaFilter;
+    private javax.swing.JToggleButton gpaFilterToggleButton;
+    private javax.swing.JSpinner maxGpaFilterInput;
+    private javax.swing.JLabel maxGpaLabel;
+    private javax.swing.JSpinner minGpaFilterInput;
+    private javax.swing.JLabel minGpaLabel;
     private javax.swing.JTextField searchBar;
     private javax.swing.JLabel searchLabel;
     private javax.swing.JTable studentsViewTable;
