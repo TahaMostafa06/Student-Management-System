@@ -25,7 +25,8 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         selectionModel = studentsViewTable.getSelectionModel(); // Selection Model == Selection Manager
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Allow only one row to be selected
         selectionModel.addListSelectionListener((event) -> {
-            editSelectedButton.setEnabled(!selectionModel.isSelectionEmpty()); // Enable edit button if student is selected
+            editSelectedButton.setEnabled(!selectionModel.isSelectionEmpty()); // Enable edit button if student is
+                                                                               // selected
         });
     }
 
@@ -48,7 +49,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         // Get selected row -> get ID column -> get ID -> pass ID to edit window
         var row = studentsViewTable.getSelectedRow();
         var idColumn = studentsViewTable.getColumn("ID").getModelIndex();
-        System.out.println(studentsViewTable.getValueAt(row, idColumn));
+        EditStudent.edit(String.valueOf(studentsViewTable.getValueAt(row, idColumn)));
     }
 
     /**
@@ -61,7 +62,8 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -160,14 +162,14 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         add(editSelectedButton, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void editButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonPressed
+    private void editButtonPressed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_editButtonPressed
         selectAndEdit();
-    }//GEN-LAST:event_editButtonPressed
+    }// GEN-LAST:event_editButtonPressed
 
-    private void backButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonMouseClicked
+    private void backButtonMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_backButtonMouseClicked
         MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.showPanel("home");
-    }//GEN-LAST:event_backButtonMouseClicked
+    }// GEN-LAST:event_backButtonMouseClicked
 
     private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchBarActionPerformed
         filter(searchBar.getText());
@@ -178,7 +180,8 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     }// GEN-LAST:event_searchBarKeyTyped
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_backButtonActionPerformed
-        // TODO add your handling code here:
+        MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.showPanel("home");
     }// GEN-LAST:event_backButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,11 +1,17 @@
 package gui;
+
 import common.data.AdminDatabase;
 import common.data.StudentDatabase;
 import gui.common.tablemodels.StudentTableModel;
 import java.awt.CardLayout;
+import java.awt.Window;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 public final class MainWindow extends javax.swing.JFrame {
     Login login;
     HomePage home;
@@ -15,35 +21,45 @@ public final class MainWindow extends javax.swing.JFrame {
     DeleteStudents deleteStudents;
     CardLayout cardLayout;
     StudentTableModel tableModel;
+    StudentDatabase db;
     AdminDatabase admindatabase;
-    public void showPanel(String panel){
+    EditStudent editStudent;
+
+    public void showPanel(String panel) {
         cardLayout.show(ContentPanel, panel);
     }
+
     public MainWindow() {
         initComponents();
         try {
-            tableModel = new StudentTableModel(StudentDatabase.getInstance("Students.txt"));
+            db = StudentDatabase.getInstance("Students.txt");
             admindatabase = new AdminDatabase("Users.txt");
-            login = new Login(admindatabase);
-            home = new HomePage();
-            addStudents = new AddStudents(tableModel);
-            viewStudents = new ViewStudents(tableModel);
-            searchUpdateStudents = new SearchAndUpdate(tableModel);
-            deleteStudents = new DeleteStudents(tableModel);
-            cardLayout = (CardLayout) ContentPanel.getLayout();
-            ContentPanel.add(login, "login");
-            ContentPanel.add(home, "home");
-            ContentPanel.add(addStudents, "addstudents");
-            ContentPanel.add(viewStudents, "viewstudents");
-            ContentPanel.add(searchUpdateStudents, "searchupdatestudents");
-            ContentPanel.add(deleteStudents, "deletestudents");
-            showPanel("login");
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(ERROR);
         }
+        tableModel = new StudentTableModel(db);
+        login = new Login(admindatabase);
+        home = new HomePage();
+        addStudents = new AddStudents(tableModel);
+        viewStudents = new ViewStudents(tableModel);
+        searchUpdateStudents = new SearchAndUpdate(tableModel);
+        deleteStudents = new DeleteStudents(tableModel);
+        editStudent = new EditStudent(tableModel, db);
+        cardLayout = (CardLayout) ContentPanel.getLayout();
+        ContentPanel.add(login, "login");
+        ContentPanel.add(home, "home");
+        ContentPanel.add(addStudents, "addstudents");
+        ContentPanel.add(viewStudents, "viewstudents");
+        ContentPanel.add(searchUpdateStudents, "searchupdatestudents");
+        ContentPanel.add(deleteStudents, "deletestudents");
+        ContentPanel.add(editStudent, "editstudent");
+        showPanel("login");
     }
+
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         ContentPanel = new javax.swing.JPanel();
@@ -57,25 +73,29 @@ public final class MainWindow extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
- 
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+        // (optional) ">
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
+         * look and feel.
+         * For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -85,17 +105,21 @@ public final class MainWindow extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         }
-        //</editor-fold>
+        // </editor-fold>
         /* Create and display the form */
-        
+
         java.awt.EventQueue.invokeLater(() -> {
             new MainWindow().setVisible(true);
         });
