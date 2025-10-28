@@ -12,7 +12,6 @@ import javax.swing.table.TableRowSorter;
 public class DeleteStudents extends javax.swing.JPanel {
     StudentTableModel tableModel;
     TableRowSorter<StudentTableModel> tableSorter;
-    ListSelectionModel selectionModel;
     
     public DeleteStudents (StudentTableModel studentTable) {
         initComponents();
@@ -20,8 +19,7 @@ public class DeleteStudents extends javax.swing.JPanel {
         jTable1.setModel(tableModel);
         tableSorter = new TableRowSorter<>(tableModel);
         jTable1.setRowSorter(tableSorter);
-        selectionModel = jTable1.getSelectionModel(); // Selection Model == Selection Manager
-        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Allow only one row to be selected
+        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
 

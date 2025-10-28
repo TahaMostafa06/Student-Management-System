@@ -1,6 +1,5 @@
 package gui;
 
-import common.data.StudentDatabase;
 import gui.common.tablemodels.StudentTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -33,6 +32,7 @@ public class ViewStudents extends javax.swing.JPanel {
         tableScrollPane = new javax.swing.JScrollPane();
         studentsViewTable = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(130, 195, 130));
         setEnabled(false);
         setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         setLayout(new java.awt.GridBagLayout());
@@ -45,6 +45,7 @@ public class ViewStudents extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 2;
         add(title, gridBagConstraints);
 
+        backButton.setBackground(new java.awt.Color(255, 153, 153));
         backButton.setText("Back");
         backButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

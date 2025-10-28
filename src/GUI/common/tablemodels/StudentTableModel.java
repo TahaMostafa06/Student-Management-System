@@ -3,11 +3,12 @@ package gui.common.tablemodels;
 import javax.swing.table.AbstractTableModel;
 
 import common.data.StudentDatabase;
+import javax.swing.table.TableRowSorter;
 
 public class StudentTableModel extends AbstractTableModel {
 
     StudentDatabase db;
-
+    
     public StudentTableModel(StudentDatabase db) {
         this.db = db;
     }

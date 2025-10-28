@@ -1,4 +1,5 @@
 package gui;
+import common.data.AdminDatabase;
 import common.data.StudentDatabase;
 import gui.common.tablemodels.StudentTableModel;
 import java.awt.CardLayout;
@@ -14,6 +15,7 @@ public final class MainWindow extends javax.swing.JFrame {
     DeleteStudents deleteStudents;
     CardLayout cardLayout;
     StudentTableModel tableModel;
+    AdminDatabase admindatabase;
     public void showPanel(String panel){
         cardLayout.show(ContentPanel, panel);
     }
@@ -21,7 +23,8 @@ public final class MainWindow extends javax.swing.JFrame {
         initComponents();
         try {
             tableModel = new StudentTableModel(StudentDatabase.getInstance("Students.txt"));
-            login = new Login();
+            admindatabase = new AdminDatabase("Users.txt");
+            login = new Login(admindatabase);
             home = new HomePage();
             addStudents = new AddStudents(tableModel);
             viewStudents = new ViewStudents(tableModel);

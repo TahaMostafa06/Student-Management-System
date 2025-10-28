@@ -1,12 +1,14 @@
 package gui;
 
+import common.data.AdminDatabase;
 import gui.common.fieldcheckers.BasicValidators;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JPanel {
-
-    public Login() {
+    AdminDatabase database;
+    public Login(AdminDatabase database) {
         initComponents();
+        this.database = database;
     }
 
     private void submit() {
@@ -14,16 +16,17 @@ public class Login extends javax.swing.JPanel {
             usernameInput.requestFocus();
         } else if (!BasicValidators.validate(passwordInput, BasicValidators.password)) {
             passwordInput.requestFocus();
-        } else if (!(usernameInput.getText().equals("Taha")
-                && String.valueOf(passwordInput.getPassword()).equals("9999"))) {
-            passwordInput.requestFocus();
-        } else {
-            usernameInput.setText("");
-            passwordInput.setText("");
-            JOptionPane.showMessageDialog(this, "Login Successful", "Login Confirmation",
-                    JOptionPane.INFORMATION_MESSAGE);
-            MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
-            frame.showPanel("home");
+        } else{
+            if(database.contains(usernameInput.getText() + "," + String.valueOf(passwordInput.getPassword()))){
+                usernameInput.setText("");
+                passwordInput.setText("");
+                JOptionPane.showMessageDialog(this, "Login Successful", "Login Confirmation",
+                        JOptionPane.INFORMATION_MESSAGE);
+                MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
+                frame.showPanel("home");
+            }else{
+                JOptionPane.showMessageDialog(this, "Incorrect Username or Password", "Login Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -46,6 +49,7 @@ public class Login extends javax.swing.JPanel {
         submitButton = new javax.swing.JButton();
         passwordInput = new javax.swing.JPasswordField();
 
+        setBackground(new java.awt.Color(130, 195, 130));
         setLayout(new java.awt.GridBagLayout());
 
         title.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -95,6 +99,7 @@ public class Login extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(22, 22, 22, 22);
         add(usernameInput, gridBagConstraints);
 
+        submitButton.setBackground(new java.awt.Color(0, 204, 255));
         submitButton.setText("Login");
         submitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -73,6 +73,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         searchLabel = new javax.swing.JLabel();
         editSelectedButton = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(130, 195, 130));
         setEnabled(false);
         setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         setLayout(new java.awt.GridBagLayout());
@@ -85,6 +86,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 3;
         add(title, gridBagConstraints);
 
+        backButton.setBackground(new java.awt.Color(255, 153, 153));
         backButton.setText("Back");
         backButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -143,6 +145,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
         add(searchLabel, gridBagConstraints);
 
+        editSelectedButton.setBackground(new java.awt.Color(0, 204, 255));
         editSelectedButton.setText("Edit Selected");
         editSelectedButton.setEnabled(false);
         editSelectedButton.addActionListener(new java.awt.event.ActionListener() {

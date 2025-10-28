@@ -23,6 +23,7 @@ public class HomePage extends javax.swing.JPanel {
         deleteStudentsButton = new javax.swing.JButton();
         searchAndUpdateButton = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(130, 195, 130));
         setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         setLayout(new java.awt.GridBagLayout());
 
@@ -36,7 +37,7 @@ public class HomePage extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(14, 14, 14, 14);
         add(title, gridBagConstraints);
 
-        logoutButton.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        logoutButton.setBackground(new java.awt.Color(130, 195, 130));
         logoutButton.setForeground(javax.swing.UIManager.getDefaults().getColor("text"));
         logoutButton.setText("Logout");
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
@@ -53,6 +54,7 @@ public class HomePage extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(14, 14, 14, 14);
         add(logoutButton, gridBagConstraints);
 
+        addStudentsButton.setBackground(new java.awt.Color(0, 204, 255));
         addStudentsButton.setText("Add Students");
         addStudentsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,6 +71,7 @@ public class HomePage extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         add(addStudentsButton, gridBagConstraints);
 
+        viewStudentsButton.setBackground(new java.awt.Color(0, 204, 255));
         viewStudentsButton.setText("View Students");
         viewStudentsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,6 +88,7 @@ public class HomePage extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         add(viewStudentsButton, gridBagConstraints);
 
+        deleteStudentsButton.setBackground(new java.awt.Color(0, 204, 255));
         deleteStudentsButton.setText("Delete Students");
         deleteStudentsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,6 +105,7 @@ public class HomePage extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         add(deleteStudentsButton, gridBagConstraints);
 
+        searchAndUpdateButton.setBackground(new java.awt.Color(0, 204, 255));
         searchAndUpdateButton.setText("Search & Update Students");
         searchAndUpdateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
