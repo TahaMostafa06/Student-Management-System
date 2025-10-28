@@ -1,5 +1,11 @@
 package gui;
+import common.data.AdminDatabase;
+import common.data.StudentDatabase;
+import gui.common.tablemodels.StudentTableModel;
 import java.awt.CardLayout;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public final class MainWindow extends javax.swing.JFrame {
     Login login;
     HomePage home;
@@ -9,27 +15,35 @@ public final class MainWindow extends javax.swing.JFrame {
     DeleteStudents deleteStudents;
     CardLayout cardLayout;
     EditStudent editStudent;
+    StudentTableModel tableModel;
+    AdminDatabase admindatabase;
     public void showPanel(String panel){
         cardLayout.show(ContentPanel, panel);
     }
     public MainWindow() {
         initComponents();
-        login = new Login();
-        home = new HomePage();
-        addStudents = new AddStudents();
-        viewStudents = new ViewStudents();
-        searchUpdateStudents = new SearchAndUpdate();
-        deleteStudents = new DeleteStudents();
-        editStudent = new EditStudent();
-        cardLayout = (CardLayout) ContentPanel.getLayout();
-        ContentPanel.add(login, "login");
-        ContentPanel.add(home, "home");
-        ContentPanel.add(addStudents, "addstudents");
-        ContentPanel.add(viewStudents, "viewstudents");
-        ContentPanel.add(searchUpdateStudents, "searchupdatestudents");
-        ContentPanel.add(deleteStudents, "deletestudents");
-        ContentPanel.add(editStudent, "editstudent");
-        showPanel("login");
+        try {
+            tableModel = new StudentTableModel(StudentDatabase.getInstance("Students.txt"));
+            admindatabase = new AdminDatabase("Users.txt");
+            login = new Login(admindatabase);
+            home = new HomePage();
+            addStudents = new AddStudents(tableModel);
+            viewStudents = new ViewStudents(tableModel);
+            searchUpdateStudents = new SearchAndUpdate(tableModel);
+            editStudent = new EditStudent();
+            deleteStudents = new DeleteStudents(tableModel);
+            cardLayout = (CardLayout) ContentPanel.getLayout();
+            ContentPanel.add(login, "login");
+            ContentPanel.add(home, "home");
+            ContentPanel.add(addStudents, "addstudents");
+            ContentPanel.add(viewStudents, "viewstudents");
+            ContentPanel.add(searchUpdateStudents, "searchupdatestudents");
+            ContentPanel.add(deleteStudents, "deletestudents");
+            ContentPanel.add(editStudent, "editstudent");
+            showPanel("login");
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -85,10 +99,8 @@ public final class MainWindow extends javax.swing.JFrame {
         //</editor-fold>
         /* Create and display the form */
         
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainWindow().setVisible(true);
         });
     }
 

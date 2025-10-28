@@ -7,7 +7,7 @@ public class StudentDatabase extends Database<Student> {
 
     private static final ArrayList<StudentDatabase> instances = new ArrayList<>();
 
-    private StudentDatabase(String filename) throws IOException {
+    public StudentDatabase(String filename) throws IOException {
         super(filename);
     }
 
@@ -29,7 +29,7 @@ public class StudentDatabase extends Database<Student> {
         int age = Integer.parseInt(arr[2]);
         String gender = arr[3];
         String department = arr[4];
-        Double gpa = Double.parseDouble(arr[5]);
+        Double gpa = Double.valueOf(arr[5]);
         Student student = new Student(id, name, age, gender, department, gpa);
         return student;
     }

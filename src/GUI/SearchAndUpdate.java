@@ -14,21 +14,12 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     ListSelectionModel selectionModel;
     StudentDatabase db;
 
-    public SearchAndUpdate() {
+    public SearchAndUpdate(StudentTableModel studentTable) {
         initComponents();
-
-        // Data Model Initialization
-        try {
-            db = StudentDatabase.getInstance("Students.txt");
-            tableModel = new StudentTableModel(db);
-            studentsViewTable.setModel(tableModel);
-        } catch (IOException ex) {
-            System.getLogger(SearchAndUpdate.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-            return;
-        }
-
+        tableModel = studentTable;
+        studentsViewTable.setModel(tableModel);
         // Sorter initialization for use with filter() when search input is updated
-        tableSorter = new TableRowSorter<StudentTableModel>(tableModel);
+        tableSorter = new TableRowSorter<>(tableModel);
         studentsViewTable.setRowSorter(tableSorter);
 
         // Selection Handling
@@ -85,6 +76,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         searchLabel = new javax.swing.JLabel();
         editSelectedButton = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(130, 195, 130));
         setEnabled(false);
         setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         setLayout(new java.awt.GridBagLayout());
@@ -97,7 +89,13 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 3;
         add(title, gridBagConstraints);
 
+        backButton.setBackground(new java.awt.Color(255, 153, 153));
         backButton.setText("Back");
+        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backButtonMouseClicked(evt);
+            }
+        });
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backButtonActionPerformed(evt);
@@ -150,6 +148,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(15, 15, 15, 15);
         add(searchLabel, gridBagConstraints);
 
+        editSelectedButton.setBackground(new java.awt.Color(0, 204, 255));
         editSelectedButton.setText("Edit Selected");
         editSelectedButton.setEnabled(false);
         editSelectedButton.addActionListener(new java.awt.event.ActionListener() {
@@ -167,6 +166,11 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     private void editButtonPressed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_editButtonPressed
         selectAndEdit();
     }// GEN-LAST:event_editButtonPressed
+
+    private void backButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonMouseClicked
+        MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.showPanel("home");
+    }//GEN-LAST:event_backButtonMouseClicked
 
     private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchBarActionPerformed
         filter(searchBar.getText());

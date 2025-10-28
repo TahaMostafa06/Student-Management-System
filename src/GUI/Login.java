@@ -1,34 +1,32 @@
 package gui;
-
-import gui.common.fieldcheckers.PasswordChecker;
-import gui.common.fieldcheckers.UsernameChecker;
-import java.util.List;
+import common.data.AdminDatabase;
+import gui.common.fieldcheckers.BasicValidators;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JPanel {
-    PasswordChecker pwc;
-    UsernameChecker unc;
-
-    public Login() {
+    AdminDatabase database;
+    public Login(AdminDatabase database) {
         initComponents();
-        pwc = new PasswordChecker(passwordLabel, passwordLabel.getText(), "password can't be empty",
-                "incorrect password", passwordInput, List.of("9999"));
-        unc = new UsernameChecker(usernameLabel, usernameLabel.getText(), "username can't be empty",
-                "incorrect username", usernameInput, List.of("Taha"));
-
+        this.database = database;
     }
 
     private void submit() {
-        if (!unc.checkCorrect())
-            return;
-        if (!pwc.checkCorrect())
-            return;
-        usernameInput.setText("");
-        passwordInput.setText("");
-        JOptionPane.showMessageDialog(this, "Login Successful", "Login Confirmation",
-                JOptionPane.INFORMATION_MESSAGE);
-        MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
-        frame.showPanel("home");
+        if (!BasicValidators.validate(usernameInput, BasicValidators.username)) {
+            usernameInput.requestFocus();
+        } else if (!BasicValidators.validate(passwordInput, BasicValidators.password)) {
+            passwordInput.requestFocus();
+        } else{
+            if(database.contains(usernameInput.getText() + "," + String.valueOf(passwordInput.getPassword()))){
+                usernameInput.setText("");
+                passwordInput.setText("");
+                JOptionPane.showMessageDialog(this, "Login Successful", "Login Confirmation",
+                        JOptionPane.INFORMATION_MESSAGE);
+                MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
+                frame.showPanel("home");
+            }else{
+                JOptionPane.showMessageDialog(this, "Incorrect Username or Password", "Login Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     /**
@@ -52,6 +50,7 @@ public class Login extends javax.swing.JPanel {
         submitButton = new javax.swing.JButton();
         passwordInput = new javax.swing.JPasswordField();
 
+        setBackground(new java.awt.Color(130, 195, 130));
         setLayout(new java.awt.GridBagLayout());
 
         title.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -100,6 +99,7 @@ public class Login extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(22, 22, 22, 22);
         add(usernameInput, gridBagConstraints);
 
+        submitButton.setBackground(new java.awt.Color(0, 204, 255));
         submitButton.setText("Login");
         submitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

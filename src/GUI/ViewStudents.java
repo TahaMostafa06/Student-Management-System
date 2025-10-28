@@ -1,23 +1,16 @@
 package gui;
 
-import common.data.StudentDatabase;
 import gui.common.tablemodels.StudentTableModel;
-import java.io.IOException;
 import javax.swing.table.TableRowSorter;
 
 public class ViewStudents extends javax.swing.JPanel {
     StudentTableModel tableModel;
     TableRowSorter<StudentTableModel> tableSorter;
-    public ViewStudents() {
+    public ViewStudents(StudentTableModel studentTable) {
         initComponents();
-        
-        try {
-            tableModel = new StudentTableModel(StudentDatabase.getInstance("Students.txt"));
-            studentsViewTable.setModel(tableModel);
-        } catch (IOException ex) {
-            System.getLogger(ViewStudents.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        }
-        tableSorter = new TableRowSorter<StudentTableModel>(tableModel);
+        tableModel = studentTable;
+        studentsViewTable.setModel(tableModel);
+        tableSorter = new TableRowSorter<>(tableModel);
         studentsViewTable.setRowSorter(tableSorter);
     }
 
@@ -39,6 +32,7 @@ public class ViewStudents extends javax.swing.JPanel {
         tableScrollPane = new javax.swing.JScrollPane();
         studentsViewTable = new javax.swing.JTable();
 
+        setBackground(new java.awt.Color(130, 195, 130));
         setEnabled(false);
         setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         setLayout(new java.awt.GridBagLayout());
@@ -51,7 +45,13 @@ public class ViewStudents extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 2;
         add(title, gridBagConstraints);
 
+        backButton.setBackground(new java.awt.Color(255, 153, 153));
         backButton.setText("Back");
+        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backButtonMouseClicked(evt);
+            }
+        });
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backButtonActionPerformed(evt);
@@ -77,6 +77,11 @@ public class ViewStudents extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         add(tableScrollPane, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void backButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonMouseClicked
+        MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.showPanel("home");
+    }//GEN-LAST:event_backButtonMouseClicked
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:

@@ -23,6 +23,7 @@ public class HomePage extends javax.swing.JPanel {
         deleteStudentsButton = new javax.swing.JButton();
         searchAndUpdateButton = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(130, 195, 130));
         setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         setLayout(new java.awt.GridBagLayout());
 
@@ -36,9 +37,14 @@ public class HomePage extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(14, 14, 14, 14);
         add(title, gridBagConstraints);
 
-        logoutButton.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        logoutButton.setBackground(new java.awt.Color(130, 195, 130));
         logoutButton.setForeground(javax.swing.UIManager.getDefaults().getColor("text"));
         logoutButton.setText("Logout");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -48,7 +54,13 @@ public class HomePage extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(14, 14, 14, 14);
         add(logoutButton, gridBagConstraints);
 
+        addStudentsButton.setBackground(new java.awt.Color(0, 204, 255));
         addStudentsButton.setText("Add Students");
+        addStudentsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStudentsButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -59,7 +71,13 @@ public class HomePage extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         add(addStudentsButton, gridBagConstraints);
 
+        viewStudentsButton.setBackground(new java.awt.Color(0, 204, 255));
         viewStudentsButton.setText("View Students");
+        viewStudentsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewStudentsButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
@@ -70,7 +88,13 @@ public class HomePage extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         add(viewStudentsButton, gridBagConstraints);
 
+        deleteStudentsButton.setBackground(new java.awt.Color(0, 204, 255));
         deleteStudentsButton.setText("Delete Students");
+        deleteStudentsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteStudentsButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
@@ -81,6 +105,7 @@ public class HomePage extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         add(deleteStudentsButton, gridBagConstraints);
 
+        searchAndUpdateButton.setBackground(new java.awt.Color(0, 204, 255));
         searchAndUpdateButton.setText("Search & Update Students");
         searchAndUpdateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,14 +123,35 @@ public class HomePage extends javax.swing.JPanel {
         add(searchAndUpdateButton, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void setTitle(String username){
+        title.setText("Welcome" + username + "!");
+    }
     private void showPanel(String panel) {
         MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.showPanel(panel);
     }
     
+    
     private void searchAndUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchAndUpdateActionPerformed
         showPanel("searchupdatestudents");
     }//GEN-LAST:event_searchAndUpdateActionPerformed
+
+    private void addStudentsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentsButtonActionPerformed
+        showPanel("addstudents");
+    }//GEN-LAST:event_addStudentsButtonActionPerformed
+
+    private void viewStudentsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewStudentsButtonActionPerformed
+        showPanel("viewstudents");
+    }//GEN-LAST:event_viewStudentsButtonActionPerformed
+
+    private void deleteStudentsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStudentsButtonActionPerformed
+        showPanel("deletestudents");
+    }//GEN-LAST:event_deleteStudentsButtonActionPerformed
+
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        // TODO add your handling code here:
+        showPanel("login");
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
