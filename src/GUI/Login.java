@@ -1,5 +1,4 @@
 package gui;
-
 import common.data.AdminDatabase;
 import gui.common.fieldcheckers.BasicValidators;
 import javax.swing.JOptionPane;
@@ -38,7 +37,9 @@ public class Login extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -85,7 +86,6 @@ public class Login extends javax.swing.JPanel {
         add(passwordLabel, gridBagConstraints);
 
         usernameInput.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        usernameInput.setInputVerifier(gui.common.fieldcheckers.BasicValidators.username);
         usernameInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usernameInputActionPerformed(evt);
@@ -117,7 +117,6 @@ public class Login extends javax.swing.JPanel {
         add(submitButton, gridBagConstraints);
 
         passwordInput.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        passwordInput.setInputVerifier(gui.common.fieldcheckers.BasicValidators.password);
         passwordInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordInputActionPerformed(evt);
@@ -134,7 +133,7 @@ public class Login extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void usernameInputActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_usernameInputActionPerformed
-        if (BasicValidators.validate(usernameInput, BasicValidators.username))
+        if (unc.checkValid())
             usernameInput.transferFocus();
     }// GEN-LAST:event_usernameInputActionPerformed
 

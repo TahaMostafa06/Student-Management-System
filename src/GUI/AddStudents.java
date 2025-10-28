@@ -72,7 +72,6 @@ public class AddStudents extends javax.swing.JPanel {
         GenderText = new javax.swing.JLabel();
         GenderComboBox = new javax.swing.JComboBox<>();
 
-        setBackground(new java.awt.Color(130, 195, 130));
         setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N

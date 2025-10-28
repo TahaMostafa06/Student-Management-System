@@ -14,6 +14,7 @@ public final class MainWindow extends javax.swing.JFrame {
     SearchAndUpdate searchUpdateStudents;
     DeleteStudents deleteStudents;
     CardLayout cardLayout;
+    EditStudent editStudent;
     StudentTableModel tableModel;
     AdminDatabase admindatabase;
     public void showPanel(String panel){
@@ -29,6 +30,7 @@ public final class MainWindow extends javax.swing.JFrame {
             addStudents = new AddStudents(tableModel);
             viewStudents = new ViewStudents(tableModel);
             searchUpdateStudents = new SearchAndUpdate(tableModel);
+            editStudent = new EditStudent();
             deleteStudents = new DeleteStudents(tableModel);
             cardLayout = (CardLayout) ContentPanel.getLayout();
             ContentPanel.add(login, "login");
@@ -37,6 +39,7 @@ public final class MainWindow extends javax.swing.JFrame {
             ContentPanel.add(viewStudents, "viewstudents");
             ContentPanel.add(searchUpdateStudents, "searchupdatestudents");
             ContentPanel.add(deleteStudents, "deletestudents");
+            ContentPanel.add(editStudent, "editstudent");
             showPanel("login");
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
