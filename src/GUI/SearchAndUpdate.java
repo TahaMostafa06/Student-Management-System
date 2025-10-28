@@ -13,18 +13,10 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     TableRowSorter<StudentTableModel> tableSorter;
     ListSelectionModel selectionModel;
 
-    public SearchAndUpdate() {
+    public SearchAndUpdate(StudentTableModel studentTable) {
         initComponents();
-
-        // Data Model Initialization
-        try {
-            tableModel = new StudentTableModel(StudentDatabase.getInstance("Students.txt"));
-            studentsViewTable.setModel(tableModel);
-        } catch (IOException ex) {
-            System.getLogger(SearchAndUpdate.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-            return;
-        }
-
+        tableModel = studentTable;
+        studentsViewTable.setModel(tableModel);
         // Sorter initialization for use with filter() when search input is updated
         tableSorter = new TableRowSorter<>(tableModel);
         studentsViewTable.setRowSorter(tableSorter);

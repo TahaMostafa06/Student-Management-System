@@ -6,23 +6,22 @@ import java.awt.HeadlessException;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 
 public class DeleteStudents extends javax.swing.JPanel {
     StudentTableModel tableModel;
     TableRowSorter<StudentTableModel> tableSorter;
-    public DeleteStudents() {
+    ListSelectionModel selectionModel;
+    
+    public DeleteStudents (StudentTableModel studentTable) {
         initComponents();
-        try {
-            tableModel = new StudentTableModel(StudentDatabase.getInstance("Students.txt"));
-            jTable1.setModel(tableModel);
-        } catch (IOException ex) {
-            System.getLogger(ViewStudents.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        }
+        tableModel = studentTable;
+        jTable1.setModel(tableModel);
         tableSorter = new TableRowSorter<>(tableModel);
         jTable1.setRowSorter(tableSorter);
+        selectionModel = jTable1.getSelectionModel(); // Selection Model == Selection Manager
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Allow only one row to be selected
     }
 
 
@@ -153,6 +152,7 @@ public class DeleteStudents extends javax.swing.JPanel {
                     }
                 }
                 p.saveToFile();
+                tableModel.refreshTable();
                 JOptionPane.showMessageDialog(this, "Students deleted successfully.");
             } catch (HeadlessException | IOException e) {
                 System.getLogger(DeleteStudents.class.getName()).log(System.Logger.Level.ERROR, "Error deleting students", e);

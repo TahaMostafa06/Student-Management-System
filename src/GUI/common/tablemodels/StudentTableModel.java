@@ -11,7 +11,9 @@ public class StudentTableModel extends AbstractTableModel {
     public StudentTableModel(StudentDatabase db) {
         this.db = db;
     }
-
+    public void refreshTable(){
+        this.fireTableDataChanged();
+    }
     @Override
     public int getRowCount() {
         return this.db.length();

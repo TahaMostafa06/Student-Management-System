@@ -2,21 +2,15 @@ package gui;
 
 import common.data.StudentDatabase;
 import gui.common.tablemodels.StudentTableModel;
-import java.io.IOException;
 import javax.swing.table.TableRowSorter;
 
 public class ViewStudents extends javax.swing.JPanel {
     StudentTableModel tableModel;
     TableRowSorter<StudentTableModel> tableSorter;
-    public ViewStudents() {
+    public ViewStudents(StudentTableModel studentTable) {
         initComponents();
-        
-        try {
-            tableModel = new StudentTableModel(StudentDatabase.getInstance("Students.txt"));
-            studentsViewTable.setModel(tableModel);
-        } catch (IOException ex) {
-            System.getLogger(ViewStudents.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        }
+        tableModel = studentTable;
+        studentsViewTable.setModel(tableModel);
         tableSorter = new TableRowSorter<>(tableModel);
         studentsViewTable.setRowSorter(tableSorter);
     }

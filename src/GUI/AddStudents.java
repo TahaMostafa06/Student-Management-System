@@ -1,17 +1,27 @@
 package gui;
 import common.data.Student;
 import common.data.StudentDatabase;
-import gui.common.fieldcheckers.BasicValidators;
+import gui.common.tablemodels.StudentTableModel;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 
 public class AddStudents extends javax.swing.JPanel {
-
+    StudentTableModel tableModel;
     public String FullName = "", Department = "", gender = "Male";
     int StudentID = 0, age = 0;
     double GPA = 0;
     public boolean validText(String input){
         return (input.length() > 0);
+    }
+    public boolean validID(String input){
+        if(input.length() == 0)
+            return false;
+        try {
+            int value = Integer.parseInt(input);
+            return (value >= 0);
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
     public boolean validGPA(String input){
         if(input.length() == 0)
@@ -33,8 +43,9 @@ public class AddStudents extends javax.swing.JPanel {
             return false;
         }
     }
-    public AddStudents() {
+    public AddStudents(StudentTableModel studentTable) {
         initComponents();
+        tableModel = studentTable;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -234,6 +245,7 @@ public class AddStudents extends javax.swing.JPanel {
                 }else{
                     p.insertRecord(newstudent);
                     p.saveToFile();
+                    tableModel.refreshTable();
                     JOptionPane.showMessageDialog(this, "Student Added Successfully", "Addition Confirmed", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (IOException ex) {
@@ -251,7 +263,7 @@ public class AddStudents extends javax.swing.JPanel {
     private void StudentIDTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StudentIDTextFieldActionPerformed
         // TODO add your handling code here:
         String currentID = StudentIDTextField.getText();
-        if(validText(currentID) == false){
+        if(validID(currentID) == false){
             JOptionPane.showMessageDialog(this, "Invalid ID", "Validation Error", JOptionPane.ERROR_MESSAGE);
             StudentIDTextField.setText(StudentID + "");
         }else{

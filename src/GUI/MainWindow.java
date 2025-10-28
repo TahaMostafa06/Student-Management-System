@@ -1,5 +1,10 @@
 package gui;
+import common.data.StudentDatabase;
+import gui.common.tablemodels.StudentTableModel;
 import java.awt.CardLayout;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public final class MainWindow extends javax.swing.JFrame {
     Login login;
     HomePage home;
@@ -8,25 +13,31 @@ public final class MainWindow extends javax.swing.JFrame {
     SearchAndUpdate searchUpdateStudents;
     DeleteStudents deleteStudents;
     CardLayout cardLayout;
+    StudentTableModel tableModel;
     public void showPanel(String panel){
         cardLayout.show(ContentPanel, panel);
     }
     public MainWindow() {
         initComponents();
-        login = new Login();
-        home = new HomePage();
-        addStudents = new AddStudents();
-        viewStudents = new ViewStudents();
-        searchUpdateStudents = new SearchAndUpdate();
-        deleteStudents = new DeleteStudents();
-        cardLayout = (CardLayout) ContentPanel.getLayout();
-        ContentPanel.add(login, "login");
-        ContentPanel.add(home, "home");
-        ContentPanel.add(addStudents, "addstudents");
-        ContentPanel.add(viewStudents, "viewstudents");
-        ContentPanel.add(searchUpdateStudents, "searchupdatestudents");
-        ContentPanel.add(deleteStudents, "deletestudents");
-        showPanel("login");
+        try {
+            tableModel = new StudentTableModel(StudentDatabase.getInstance("Students.txt"));
+            login = new Login();
+            home = new HomePage();
+            addStudents = new AddStudents(tableModel);
+            viewStudents = new ViewStudents(tableModel);
+            searchUpdateStudents = new SearchAndUpdate(tableModel);
+            deleteStudents = new DeleteStudents(tableModel);
+            cardLayout = (CardLayout) ContentPanel.getLayout();
+            ContentPanel.add(login, "login");
+            ContentPanel.add(home, "home");
+            ContentPanel.add(addStudents, "addstudents");
+            ContentPanel.add(viewStudents, "viewstudents");
+            ContentPanel.add(searchUpdateStudents, "searchupdatestudents");
+            ContentPanel.add(deleteStudents, "deletestudents");
+            showPanel("login");
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
