@@ -1,30 +1,34 @@
 package gui;
 
-import gui.common.fieldcheckers.BasicValidators;
+import gui.common.fieldcheckers.PasswordChecker;
+import gui.common.fieldcheckers.UsernameChecker;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JPanel {
+    PasswordChecker pwc;
+    UsernameChecker unc;
 
     public Login() {
         initComponents();
+        pwc = new PasswordChecker(passwordLabel, passwordLabel.getText(), "password can't be empty",
+                "incorrect password", passwordInput, List.of("9999"));
+        unc = new UsernameChecker(usernameLabel, usernameLabel.getText(), "username can't be empty",
+                "incorrect username", usernameInput, List.of("Taha"));
+
     }
 
     private void submit() {
-        if (!BasicValidators.validate(usernameInput, BasicValidators.username)) {
-            usernameInput.requestFocus();
-        } else if (!BasicValidators.validate(passwordInput, BasicValidators.password)) {
-            passwordInput.requestFocus();
-        } else if (!(usernameInput.getText().equals("Taha")
-                && String.valueOf(passwordInput.getPassword()).equals("9999"))) {
-            passwordInput.requestFocus();
-        } else {
-            usernameInput.setText("");
-            passwordInput.setText("");
-            JOptionPane.showMessageDialog(this, "Login Successful", "Login Confirmation",
-                    JOptionPane.INFORMATION_MESSAGE);
-            MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
-            frame.showPanel("home");
-        }
+        if (!unc.checkCorrect())
+            return;
+        if (!pwc.checkCorrect())
+            return;
+        usernameInput.setText("");
+        passwordInput.setText("");
+        JOptionPane.showMessageDialog(this, "Login Successful", "Login Confirmation",
+                JOptionPane.INFORMATION_MESSAGE);
+        MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
+        frame.showPanel("home");
     }
 
     /**
@@ -35,7 +39,9 @@ public class Login extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -81,7 +87,6 @@ public class Login extends javax.swing.JPanel {
         add(passwordLabel, gridBagConstraints);
 
         usernameInput.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        usernameInput.setInputVerifier(gui.common.fieldcheckers.BasicValidators.username);
         usernameInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usernameInputActionPerformed(evt);
@@ -112,7 +117,6 @@ public class Login extends javax.swing.JPanel {
         add(submitButton, gridBagConstraints);
 
         passwordInput.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        passwordInput.setInputVerifier(gui.common.fieldcheckers.BasicValidators.password);
         passwordInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordInputActionPerformed(evt);
@@ -129,7 +133,7 @@ public class Login extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void usernameInputActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_usernameInputActionPerformed
-        if (BasicValidators.validate(usernameInput, BasicValidators.username))
+        if (unc.checkValid())
             usernameInput.transferFocus();
     }// GEN-LAST:event_usernameInputActionPerformed
 

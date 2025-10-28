@@ -8,6 +8,7 @@ public final class MainWindow extends javax.swing.JFrame {
     SearchAndUpdate searchUpdateStudents;
     DeleteStudents deleteStudents;
     CardLayout cardLayout;
+    EditStudent editStudent;
     public void showPanel(String panel){
         cardLayout.show(ContentPanel, panel);
     }
@@ -19,6 +20,7 @@ public final class MainWindow extends javax.swing.JFrame {
         viewStudents = new ViewStudents();
         searchUpdateStudents = new SearchAndUpdate();
         deleteStudents = new DeleteStudents();
+        editStudent = new EditStudent();
         cardLayout = (CardLayout) ContentPanel.getLayout();
         ContentPanel.add(login, "login");
         ContentPanel.add(home, "home");
@@ -26,6 +28,7 @@ public final class MainWindow extends javax.swing.JFrame {
         ContentPanel.add(viewStudents, "viewstudents");
         ContentPanel.add(searchUpdateStudents, "searchupdatestudents");
         ContentPanel.add(deleteStudents, "deletestudents");
+        ContentPanel.add(editStudent, "editstudent");
         showPanel("login");
     }
     @SuppressWarnings("unchecked")

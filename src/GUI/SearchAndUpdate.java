@@ -12,13 +12,15 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     StudentTableModel tableModel;
     TableRowSorter<StudentTableModel> tableSorter;
     ListSelectionModel selectionModel;
+    StudentDatabase db;
 
     public SearchAndUpdate() {
         initComponents();
 
         // Data Model Initialization
         try {
-            tableModel = new StudentTableModel(StudentDatabase.getInstance("Students.txt"));
+            db = StudentDatabase.getInstance("Students.txt");
+            tableModel = new StudentTableModel(db);
             studentsViewTable.setModel(tableModel);
         } catch (IOException ex) {
             System.getLogger(SearchAndUpdate.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
@@ -33,7 +35,8 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         selectionModel = studentsViewTable.getSelectionModel(); // Selection Model == Selection Manager
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Allow only one row to be selected
         selectionModel.addListSelectionListener((event) -> {
-            editSelectedButton.setEnabled(!selectionModel.isSelectionEmpty()); // Enable edit button if student is selected
+            editSelectedButton.setEnabled(!selectionModel.isSelectionEmpty()); // Enable edit button if student is
+                                                                               // selected
         });
     }
 
@@ -56,7 +59,7 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         // Get selected row -> get ID column -> get ID -> pass ID to edit window
         var row = studentsViewTable.getSelectedRow();
         var idColumn = studentsViewTable.getColumn("ID").getModelIndex();
-        System.out.println(studentsViewTable.getValueAt(row, idColumn));
+        EditStudent.edit(this.tableModel.getValueAt(row, idColumn).toString(), db);
     }
 
     /**
@@ -69,7 +72,8 @@ public class SearchAndUpdate extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -160,9 +164,9 @@ public class SearchAndUpdate extends javax.swing.JPanel {
         add(editSelectedButton, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void editButtonPressed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonPressed
+    private void editButtonPressed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_editButtonPressed
         selectAndEdit();
-    }//GEN-LAST:event_editButtonPressed
+    }// GEN-LAST:event_editButtonPressed
 
     private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchBarActionPerformed
         filter(searchBar.getText());

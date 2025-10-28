@@ -83,4 +83,8 @@ public class StudentTableModel extends AbstractTableModel {
         }
     }
 
+    public void removeRow(int rowIndex) {
+        this.db.deleteRecord(this.db.getRecord(rowIndex).getSearchKey());
+    }
+
 }
