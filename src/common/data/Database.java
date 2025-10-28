@@ -1,4 +1,4 @@
-package Records;
+package common.data;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public abstract class Database<RecordType extends Record> {
 
-    // A] Fields - remember to turn protected -> private when subclassing
+    // A] Fields
     protected ArrayList<RecordType> records;
     protected final String filename;
 
@@ -28,6 +28,10 @@ public abstract class Database<RecordType extends Record> {
         return this.records;
     }
 
+    public RecordType getRecord(int index) {
+        return this.records.get(index);
+    }
+
     public RecordType getRecord(String key) {
         for (var r : this.records) {
             if (r.getSearchKey().equals(key)) {
@@ -39,7 +43,7 @@ public abstract class Database<RecordType extends Record> {
 
     // Setters
     public void insertRecord(RecordType record) {
-        if(!this.contains(record.getSearchKey()))
+        if (!this.contains(record.getSearchKey()))
             this.records.add(record);
     }
 
@@ -61,12 +65,12 @@ public abstract class Database<RecordType extends Record> {
     }
 
     public final void readFromFile() throws IOException {
-        this.records = new ArrayList<> ();
+        this.records = new ArrayList<>();
         try (var br = new BufferedReader(new FileReader(this.filename))) {
             String line;
             while ((line = br.readLine()) != null) {
                 var record = createRecordFrom(line);
-                this.records.add(record);
+                this.insertRecord(record);
             }
         } catch (IOException e) {
             throw new IOException(e);
@@ -83,6 +87,20 @@ public abstract class Database<RecordType extends Record> {
         } catch (IOException e) {
             throw new IOException(e);
         }
+    }
+    public void clearFile() throws IOException {
+        try (var writer = new BufferedWriter(new FileWriter(this.filename, false))) {
+            writer.write("");
+        } catch (IOException e) {
+            throw new IOException(e);
+        }
+    }
+    public int length() {
+        return this.records.size();
+    }
+
+    public int size() {
+        return this.records.size();
     }
 
     // Abstract methods

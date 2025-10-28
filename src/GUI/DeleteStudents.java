@@ -1,39 +1,26 @@
-package GUI;
-
-import Records.Student;
-import Records.StudentDatabase;
+package gui;
+import common.data.Student;
+import common.data.StudentDatabase;
+import gui.common.tablemodels.StudentTableModel;
+import java.awt.HeadlessException;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 
 public class DeleteStudents extends javax.swing.JPanel {
-
-    private void addToCell(Student s) {
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.addRow(new Object[]{
-        s.getSearchKey(),
-        s.getName(),
-        s.getAge(),
-        s.getGender() ? "Male" : "Female",
-        s.getDepartment(),
-        s.getGPA()
-    });
-}
-    public DeleteStudents() {
-    initComponents();
-    jTable1.setEnabled(true);
-    jTable1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-    try {
-        StudentDatabase db = new StudentDatabase("students.txt");
-        for (Student s : db.returnAllRecords()) {
-            addToCell(s);
-        }
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Failed to load student data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    StudentTableModel tableModel;
+    TableRowSorter<StudentTableModel> tableSorter;
+    
+    public DeleteStudents (StudentTableModel studentTable) {
+        initComponents();
+        tableModel = studentTable;
+        jTable1.setModel(tableModel);
+        tableSorter = new TableRowSorter<>(tableModel);
+        jTable1.setRowSorter(tableSorter);
+        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
-}
 
 
     /**
@@ -124,13 +111,11 @@ public class DeleteStudents extends javax.swing.JPanel {
     }// </editor-fold>                        
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
         MainWindow frame = (MainWindow) javax.swing.SwingUtilities.getWindowAncestor(this);
         frame.showPanel("home");
     }                                        
 
-    private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {                                       
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {
         int[] selectedRows = jTable1.getSelectedRows();
 
         if (selectedRows.length == 0) {
@@ -142,15 +127,32 @@ public class DeleteStudents extends javax.swing.JPanel {
 
         if (confirm == JOptionPane.YES_OPTION) {
             try {
-                StudentDatabase p = new StudentDatabase("students.txt");
-                for (int i = selectedRows.length - 1; i >= 0; i--) {
-                    String id = model.getValueAt(selectedRows[i], 0).toString();
-                    p.deleteRecord(id);
-                    model.removeRow(selectedRows[i]);
+                StudentDatabase p = StudentDatabase.getInstance("Students.txt");
+                p.clearFile();
+                for(int i = 0; i < tableModel.getRowCount(); i++){
+                    boolean removed = false;
+                    for(int j = 0; j < selectedRows.length; j++){
+                        if(selectedRows[i] == i){
+                            removed = true;
+                            break;
+                        }
+                    }
+                    if(!removed){
+                        int S0 = (Integer)tableModel.getValueAt(i, 0);
+                        String S1 = (String) tableModel.getValueAt(i, 1);
+                        int S2 = (Integer) tableModel.getValueAt(i, 2);
+                        String S3 = (String) tableModel.getValueAt(i, 3);
+                        String S4 = (String) tableModel.getValueAt(i, 4);
+                        double S5 = (double) tableModel.getValueAt(i, 5);
+                        Student newStudent;
+                        newStudent = new Student(S0, S1, S2, S3, S4, S5);
+                        p.insertRecord(newStudent);
+                    }
                 }
                 p.saveToFile();
+                tableModel.refreshTable();
                 JOptionPane.showMessageDialog(this, "Students deleted successfully.");
-            } catch (Exception e) {
+            } catch (HeadlessException | IOException e) {
                 System.getLogger(DeleteStudents.class.getName()).log(System.Logger.Level.ERROR, "Error deleting students", e);
             }
         }
