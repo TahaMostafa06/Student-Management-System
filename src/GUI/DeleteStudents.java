@@ -19,7 +19,9 @@ public class DeleteStudents extends javax.swing.JPanel {
         jTable1.setModel(tableModel);
         tableSorter = new TableRowSorter<>(tableModel);
         jTable1.setRowSorter(tableSorter);
-        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTable1.setEnabled(true);
+        jTable1.setRowSelectionAllowed(true);
+        jTable1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     }
 
 
@@ -128,26 +130,9 @@ public class DeleteStudents extends javax.swing.JPanel {
         if (confirm == JOptionPane.YES_OPTION) {
             try {
                 StudentDatabase p = StudentDatabase.getInstance("Students.txt");
-                p.clearFile();
-                for(int i = 0; i < tableModel.getRowCount(); i++){
-                    boolean removed = false;
-                    for(int j = 0; j < selectedRows.length; j++){
-                        if(selectedRows[i] == i){
-                            removed = true;
-                            break;
-                        }
-                    }
-                    if(!removed){
-                        int S0 = (Integer)tableModel.getValueAt(i, 0);
-                        String S1 = (String) tableModel.getValueAt(i, 1);
-                        int S2 = (Integer) tableModel.getValueAt(i, 2);
-                        String S3 = (String) tableModel.getValueAt(i, 3);
-                        String S4 = (String) tableModel.getValueAt(i, 4);
-                        double S5 = (double) tableModel.getValueAt(i, 5);
-                        Student newStudent;
-                        newStudent = new Student(S0, S1, S2, S3, S4, S5);
-                        p.insertRecord(newStudent);
-                    }
+                for (int i = selectedRows.length - 1; i >= 0; i--) {
+                    String id = tableModel.getValueAt(selectedRows[i], 0).toString();
+                    p.deleteRecord(id);
                 }
                 p.saveToFile();
                 tableModel.refreshTable();

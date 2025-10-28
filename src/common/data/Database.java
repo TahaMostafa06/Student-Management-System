@@ -88,12 +88,8 @@ public abstract class Database<RecordType extends Record> {
             throw new IOException(e);
         }
     }
-    public void clearFile() throws IOException {
-        try (var writer = new BufferedWriter(new FileWriter(this.filename, false))) {
-            writer.write("");
-        } catch (IOException e) {
-            throw new IOException(e);
-        }
+    public void clearDatabase(){
+        this.records = new ArrayList<>(0);
     }
     public int length() {
         return this.records.size();
