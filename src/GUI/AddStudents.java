@@ -38,7 +38,7 @@ public class AddStudents extends javax.swing.JPanel {
             return false;
         try {
             int value = Integer.parseInt(input);
-            return (value >= 0 && value <= 99);
+            return (value >= 16 && value <= 34);
         } catch (NumberFormatException e) {
             return false;
         }
